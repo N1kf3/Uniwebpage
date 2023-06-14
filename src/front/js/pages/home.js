@@ -2,25 +2,29 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
-
+import { Link } from "react-router-dom";
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
+		<div className="mt-5 container d-flex justify-content-evenly ">
+			<div>
+				uni LOGO
 			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
+			<form>
+				<div className="mb-3">
+					<label for="exampleInputEmail1" className="form-label">Cedula de identidad</label>
+					<input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>					
+				</div>
+				<div className="mb-3">
+					<label for="exampleInputPassword1" className="form-label">Contraseña</label>
+					<input type="password" className="form-control" id="exampleInputPassword1"/>
+				</div>
+				<Link to='/my_account'>
+				<button type="submit" className="btn btn-primary">Iniciar Sesion</button>
+				</Link>
+			
+			</form>
 		</div>
 	);
 };
