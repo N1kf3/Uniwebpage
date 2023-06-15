@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -16,4 +17,21 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             # do not serialize the password, its a security breach
+        }
+
+
+class Student_Data(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    cedula = db.Column(db.Integer, unique=True, nullable=False)
+    nombre = db.Column(db.String(80), unique=False, nullable=False)
+    apellido = db.Column(db.String(80), unique=False, nullable=False)
+    carrera = db.Column(db.String(80), unique=False, nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "cedula": self.cedula,
+            "nombre": self.nombre,
+            "apellido": self.apellido,
+            "carrera": self.carrera
         }
