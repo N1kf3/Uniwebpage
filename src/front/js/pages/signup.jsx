@@ -7,7 +7,10 @@ import "../../styles/home.css";
 export const Signup =() =>{
     const [userID,getUserID]= useState(null);
     const [user, getUser] = useState(null);
+    const [userEmail, getUserEmail] = useState(null);
+    const [userPass, getUserPass] = useState(null);
     const [viewInfo, getViewInfo] = useState(0);
+    const [inputDesable, getInputDesable] = useState(false)
 
     const check_ID = async (userID)=>{
         event.preventDefault();
@@ -19,21 +22,53 @@ export const Signup =() =>{
             },
             body : JSON.stringify({"Cedula":userID}),
         });
-        if (response.status == 201){
-            alert("se cargo con exito la informacion de los usuarios");
+        if (response.status == 201){    
             let usuario = await response.json()
             getUser(usuario)
+            getInputDesable(true)
             getViewInfo(1)
         } else{
-            alert("no se cargo el archivo")
+            alert("Informacion del usuario no se encuentra en la base de datos")
+            
             throw new Error(response.status)
+        }}
+        catch(error){
+            console.log(error)
         }
+    }
 
+    const signup = async (event)=>{
+        event.preventDefault();
+        const userBody ={
+            nombre : user.nombre,
+            apellido : user.apellido,
+            cedula : userID,
+            carrera : user.carrera,
+            email: userEmail,
+            password : userPass
+        }
+        console.log(userBody)
+        try{
+            const response = await fetch(process.env.BACKEND_URL + "/api/signup" , {
+                method: 'POST',
+                headers: {
+                    "Content-Type":"application/json"
+                },
+                body : JSON.stringify(userBody)
+            });
+            if (response.status == 201){
+                alert('usuario creado con exito')
+
+            }else {
+                let usuario = await response.json()            
+                alert(usuario.Error)
+                throw new Error(response.status)
+            }
+            
         }
         catch(error){
             console.log(error)
         }
-
     }
 
 
@@ -45,24 +80,24 @@ export const Signup =() =>{
     return (
         <div className="container mt-5">  
             <form>
-				<div className="mb-3">
+				<div className="">
 					<label htmlFor="exampleInputEmail1" className="form-label" >Cedula de identidad</label>
-					<input type="number" className="form-control" id="exampleInputcedula" onChange={(e)=>{getUserID(e.target.value)}}/>					
+					<input type="number" className="form-control" id="exampleInputcedula" onChange={(e)=>{getUserID(e.target.value)}} disabled={inputDesable}/>					
 				</div>
                 	
-				<button type="submit" className={`btn btn-primary ${viewInfo == 0? "": "none-button"}`} onClick={(e)=>{check_ID(userID)}}>Buscar</button>
+				<button type="submit" className={`btn btn-primary mt-3 ${viewInfo == 0? "": "none-button"}`} onClick={(e)=>{check_ID(userID)}}>Buscar</button>
                 <div className={` ${viewInfo == 1 ? "": "none-button"}`}>
                     <label htmlFor="exampleInputEmail1" className="form-label"  >Nombre</label>
-                    <input type="text" className="form-control" id="exampleInputcedula" value={user == null ? " " : user.nombre} readOnly/>	
+                    <input type="text" className="form-control" id="exampleInputcedula" value={user == null ? " " : user.nombre} disabled />	
                     <label htmlFor="exampleInputEmail1" className="form-label" >Apellido</label>
-                    <input type="text" className="form-control" id="exampleInputcedula" value={user == null ? " " : user.apellido} readOnly/>	
+                    <input type="text" className="form-control" id="exampleInputcedula" value={user == null ? " " : user.apellido} disabled />	
                     <label htmlFor="exampleInputEmail1" className="form-label" >Carrera</label>
-                    <input type="text" className="form-control" id="exampleInputcedula" value={user == null ? " " : user.carrera} readOnly/>
+                    <input type="text" className="form-control" id="exampleInputcedula" value={user == null ? " " : user.carrera} disabled />
                     <label htmlFor="exampleInputEmail1" className="form-label" >Correo electronico</label>	
-                    <input type="email" className="form-control" id="exampleInputcedula" />
+                    <input type="email" className="form-control" id="exampleInputcedula" onChange={(e)=>{getUserEmail(e.target.value)}} />
                     <label htmlFor="exampleInputEmail1" className="form-label" >Contraseña</label>
-                    <input type="password" className="form-control" id="exampleInputcedula" />
-                    <button type="submit" className="btn btn-primary mt-3">Crear cuenta</button>
+                    <input type="password" className="form-control" id="exampleInputcedula" onChange={(e)=>{getUserPass(e.target.value)}}/>
+                    <button type="submit" className="btn btn-primary mt-3" onClick={signup}>Crear cuenta</button>
                 </div>
 			</form>
             
