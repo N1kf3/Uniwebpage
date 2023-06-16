@@ -2,10 +2,9 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
-
 import { Home } from "./pages/home";
 import { Signup } from "./pages/signup.jsx";
-import { My_account } from "./pages/my_account.jsx";
+import { MyAccount } from "./pages/myAccount.jsx";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -27,7 +26,7 @@ const Layout = () => {
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Signup />} path="/signup" />
-                        <Route element={<My_account />} path="/my_account" />
+                        <Route element={<MyAccount />} path="/my_account" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
