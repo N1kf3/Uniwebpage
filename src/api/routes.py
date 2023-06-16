@@ -1,10 +1,12 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+from bcrypt import gensalt
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Student_Data
 from api.utils import generate_sitemap, APIException
 
+from werkzeug.security import generate_password_hash, check_password_hash
 api = Blueprint('api', __name__)
 
 
@@ -49,3 +51,40 @@ def handle_check_ID():
             return jsonify({
                 "error": 'el usuario no existe en la base de datos '
             }), 400
+
+
+@api.route('/signup', methods=['POST'])
+def handle_signup():
+    data = request.json
+    print(data)
+    cedula_user = User.query.filter_by(user_ID=data['cedula']).one_or_none()
+
+    cedula_student = Student_Data.query.filter_by(
+        cedula=data['cedula']).one_or_none()
+    check_admin = data['carrera']
+    if check_admin != "admin":
+        check_admin = 'student'
+    if cedula_student is not None:
+        if cedula_user is not None:
+            return jsonify({
+                "Error": "El usuario ya existe"
+            }), 400
+        else:
+            salt = str(gensalt())
+            password_hash = generate_password_hash(data['password']+salt)
+            new_user = User()
+            new_user.email = data['email']
+            new_user.name = data['nombre']
+            new_user.last_name = data['apellido']
+            new_user.user_ID = data['cedula']
+            new_user.career = data['carrera']
+            new_user.role = check_admin
+            new_user.salt = salt
+            new_user.hashed_password = password_hash
+            db.session.add(new_user)
+            db.session.commit()
+            return jsonify(data), 201
+    else:
+        return jsonify({
+            "Error": "El usuario no existe en el listado de estudiantes"
+        }), 400
