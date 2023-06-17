@@ -1,15 +1,24 @@
-import React , { useState, useContext }from "react";
+import React , { useState, useContext,useEffect }from "react";
 import * as XLSX from 'xlsx';
 import { Upload_files } from "../component/uploadFiles.jsx";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 
 
 export const MyAccount =() =>{
-    const [view, setView] = useState(0);     
+    const [view, setView] = useState(0);    
+    const { actions, store } = useContext(Context); 
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        if (store.jwt_token == null) {
+            alert("Por favor inicia sesión con tus credenciales de usuario")
+            navigate("/");
+            return;
+        }
+    }, [store.jwt_token]);
 
     const LoadPage = (num) => {
         setView(num);

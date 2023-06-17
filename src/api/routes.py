@@ -3,6 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from bcrypt import gensalt
 from flask import Flask, request, jsonify, url_for, Blueprint
+from flask_jwt_extended import create_access_token
 from api.models import db, User, Student_Data
 from api.utils import generate_sitemap, APIException
 
@@ -40,25 +41,30 @@ def handle_check_ID():
     data = request.json
     if request.method == 'POST':
         cedula_check = Student_Data.query.filter_by(
-            cedula=data['Cedula']).first()
-        if cedula_check is not None:
+            cedula=data['cedula']).first()
+        cedula_user = User.query.filter_by(
+            user_ID=data['cedula']).one_or_none()
+        if cedula_check is not None and cedula_user is None:
             return jsonify({
                 "nombre": cedula_check.nombre,
                 "apellido": cedula_check.apellido,
                 "carrera": cedula_check.carrera
             }), 201
         else:
-            return jsonify({
-                "error": 'el usuario no existe en la base de datos '
-            }), 400
+            if cedula_user is None:
+                return jsonify({
+                    "error": 'el usuario no existe en la base de datos '
+                }), 400
+            else:
+                return jsonify({
+                    "error": 'el usuario ya tiene una cuenta creada '
+                }), 400
 
 
 @api.route('/signup', methods=['POST'])
 def handle_signup():
     data = request.json
-    print(data)
     cedula_user = User.query.filter_by(user_ID=data['cedula']).one_or_none()
-
     cedula_student = Student_Data.query.filter_by(
         cedula=data['cedula']).one_or_none()
     check_admin = data['carrera']
@@ -88,3 +94,25 @@ def handle_signup():
         return jsonify({
             "Error": "El usuario no existe en el listado de estudiantes"
         }), 400
+
+
+@api.route('/login', methods=['POST'])
+def handle_login():
+    data = request.json
+    print(data)
+    user = User.query.filter_by(user_ID=data['cedula']).one_or_none()
+    if user is None:
+        return jsonify({
+            "error": "Datos incorrectos"
+        }), 400
+    correct_password = check_password_hash(
+        user.hashed_password, data['password']+user.salt)
+    if not correct_password:
+        return jsonify({
+            "error": "Datos incorrectos"
+        }), 400
+    else:
+        jwt_token = create_access_token(identity=user.id)
+        return jsonify({
+            "jwt_token": jwt_token
+        }), 200

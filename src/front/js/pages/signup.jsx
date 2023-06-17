@@ -1,5 +1,5 @@
 import React , { useContext, useState }from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
@@ -11,6 +11,7 @@ export const Signup =() =>{
     const [userPass, getUserPass] = useState(null);
     const [viewInfo, getViewInfo] = useState(0);
     const [inputDesable, getInputDesable] = useState(false)
+    const navigate = useNavigate();
 
     const check_ID = async (userID)=>{
         event.preventDefault();
@@ -20,7 +21,7 @@ export const Signup =() =>{
             headers: {
                 "Content-Type":"application/json"
             },
-            body : JSON.stringify({"Cedula":userID}),
+            body : JSON.stringify({"cedula":userID}),
         });
         if (response.status == 201){    
             let usuario = await response.json()
@@ -28,8 +29,9 @@ export const Signup =() =>{
             getInputDesable(true)
             getViewInfo(1)
         } else{
-            alert("Informacion del usuario no se encuentra en la base de datos")
-            
+            let resp = await response.json()     
+            console.log(resp)       
+            alert(resp.error)
             throw new Error(response.status)
         }}
         catch(error){
@@ -58,6 +60,7 @@ export const Signup =() =>{
             });
             if (response.status == 201){
                 alert('usuario creado con exito')
+                navigate("/");
 
             }else {
                 let usuario = await response.json()            

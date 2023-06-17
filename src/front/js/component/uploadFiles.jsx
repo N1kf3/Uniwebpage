@@ -71,7 +71,6 @@ export const Upload_files = ()=>{
                 </strong>            
                 <div className="wrapper">
                     <h3>Upload & View Excel Sheets</h3>
-                    {/* form */}
                     <form className="form-group custom-form" onSubmit={handleFileSubmit}>
                         <input type="file" className="form-control" required onChange={handleFile} />
                         <button type="submit" className="btn btn-success btn-md">UPLOAD</button>
