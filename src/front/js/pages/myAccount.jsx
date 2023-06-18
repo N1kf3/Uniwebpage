@@ -1,6 +1,7 @@
 import React , { useState, useContext,useEffect }from "react";
 import * as XLSX from 'xlsx';
 import { Upload_files } from "../component/uploadFiles.jsx";
+import { Upload} from "../component/upload.jsx";
 import { Link ,useNavigate} from "react-router-dom";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
@@ -23,6 +24,19 @@ export const MyAccount =() =>{
     const LoadPage = (num) => {
         setView(num);
       };
+    const LoadPage2 = (view) => {
+        if( view == 1){
+            return(
+                <Upload_files/>
+            )
+        }
+        if ( view == 2){
+            return(
+                <Upload/>
+            )
+        }
+
+    };
 
     return (
         <div className="d-flex container">
@@ -42,7 +56,7 @@ export const MyAccount =() =>{
                     </strong>
                     <div className="d-flex flex-column">
                         <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(1)} >Carga de Data de los usuarios</button>
-                        <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(2)} >Iniciar Sesion</button>
+                        <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(2)} >Cargar materias </button>
                         <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(3)} >Iniciar Sesion</button>
                         <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(4)} >Iniciar Sesion</button> 
                     </div>
@@ -50,7 +64,7 @@ export const MyAccount =() =>{
                 </div>
             </div>
             <div>
-                {view == 0 ? <p>elem 2 </p> : view == 1 ?<Upload_files/> : <p>elem 2 </p>}
+                {view == 0 ? <p>elem 2 </p> :LoadPage2(view)}
             </div>
             
             

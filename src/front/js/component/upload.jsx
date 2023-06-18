@@ -2,7 +2,7 @@ import React , { useState, useContext }from "react";
 import * as XLSX from 'xlsx';
 
 
-export const Upload_files = ()=>{
+export const Upload = ()=>{
     // onchange states
     const [excelFile, setExcelFile] = useState(null);
     const [typeError, setTypeError] = useState(null);
@@ -37,13 +37,14 @@ export const Upload_files = ()=>{
           const worksheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[worksheetName];
           const data = XLSX.utils.sheet_to_json(worksheet);
-          sendFileBack(data);        
+          console.log(data)
+          sendFileBack(data);  
         }
       }
     
     const sendFileBack = async (data) =>{
         try{
-            const response = await fetch(process.env.BACKEND_URL + "/api/handle_user_data" , {
+            const response = await fetch(process.env.BACKEND_URL + "/api/handle_signature_data" , {
                 method: "POST",
                 headers: {
                     "Content-Type":"application/json"
@@ -66,7 +67,7 @@ export const Upload_files = ()=>{
     return(
         <div className="mx-5">           
                 <div className="wrapper">
-                    <h3>Cargar informacion de los estudiantes</h3>
+                    <h3>Cargar materias</h3>
                     <form className="form-group custom-form" onSubmit={handleFileSubmit}>
                         <input type="file" className="form-control" required onChange={handleFile} />
                         <button type="submit" className="btn btn-success btn-md">UPLOAD</button>

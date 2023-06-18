@@ -52,7 +52,7 @@ return(
         <form>
 				<div className="mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Cedula de identidad</label>
-					<input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={(e)=>getUserID(e.target.value)}/>					
+					<input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={(e)=>getUserID(e.target.value)}/>					
 				</div>
 				<div className="mb-3">
 					<label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
