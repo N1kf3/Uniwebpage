@@ -45,3 +45,20 @@ class Student_Data(db.Model):
             "apellido": self.apellido,
             "carrera": self.carrera
         }
+
+
+class Studen_subject(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    semestre = db.Column(db.String(80), unique=False, nullable=False)
+    materias = db.Column(db.String(80), unique=False, nullable=False)
+    codigo = db.Column(db.Integer, unique=True, nullable=False)
+    prelaciones = db.Column(db.String(80), unique=False, nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "semestre": self.semestre,
+            "materias": self.materias,
+            "codigo": self.codigo,
+            "prelaciones": self.prelaciones
+        }
