@@ -29,7 +29,7 @@ export const Signin =() =>{
                 })
                 if (response.status == 200){
                     let resp = await response.json();
-                    actions.setToken(resp.jwt_token);                    
+                    actions.setToken(resp.jwt_token);               
                     alert('sesion iniciada');             
                     navigate("/my_account");
     

@@ -3,8 +3,8 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from bcrypt import gensalt
 from flask import Flask, request, jsonify, url_for, Blueprint
-from flask_jwt_extended import create_access_token
-from api.models import db, User, Student_Data, Studen_subject
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from api.models import db, User, Student_Data, Studen_subject, Studen_grade
 from api.utils import generate_sitemap, APIException
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -121,6 +121,17 @@ def handle_login():
             return jsonify({
                 "jwt_token": jwt_token
             }), 200
+
+
+@api.route('/private', methods=['GET'])
+@jwt_required()
+def handle_private():
+    print('entro al private')
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    return jsonify({
+        "user": user.serialize()
+    }), 200
 
 
 @api.route('/handle_signature_data', methods=['POST'])

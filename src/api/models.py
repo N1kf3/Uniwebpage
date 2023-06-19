@@ -13,6 +13,7 @@ class User(db.Model):
     salt = db.Column(db.String(500), unique=True, nullable=False)
     hashed_password = db.Column(db.String(500), unique=False, nullable=False)
     role = db.Column(db.String(80), unique=False, nullable=False)
+    materia = db.relationship('Studen_grade', back_populates="student")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -25,8 +26,8 @@ class User(db.Model):
             "last_name": self.last_name,
             "user_ID": self.user_ID,
             "career": self.career,
-            "role": self.role
-            # do not serialize the password, its a security breach
+            "role": self.role,
+            "materia": [mat.serialize() for mat in self.materia]
         }
 
 
@@ -61,4 +62,23 @@ class Studen_subject(db.Model):
             "materias": self.materias,
             "codigo": self.codigo,
             "prelaciones": self.prelaciones
+        }
+
+
+class Studen_grade(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    notas = db.Column(db.Integer, unique=True, nullable=False)
+    materias = db.Column(db.String(80), unique=False, nullable=False)
+    codigo = db.Column(db.Integer, unique=True, nullable=False)
+    user_id = db.Column(db.ForeignKey('user.id'))
+    student = db.relationship('User', back_populates="materia")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "notas": self.notas,
+            "materias": self.materias,
+            "codigo": self.codigo,
+            "user_id": self.user_id,
+
         }

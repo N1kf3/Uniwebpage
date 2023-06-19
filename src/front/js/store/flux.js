@@ -29,7 +29,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (!store.jwt_token) {
 					alert("Se ha cerrado sesión correctamente");
 				}
-	
+			},
+			getProfile: async () => {
+				const store = getStore();
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/private", {
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: `Bearer ${store.jwt_token}`,
+						}
+					})
+					if (response.status == 200) {
+						const body = await response.json();
+						setStore({user: body.user});						
+					}
+					else {
+						alert("Se produjo un error al cargar el perfil de usuario");
+						throw new Error (response.status);
+					}
+				} catch (error) {
+					console.log("Estatus de error: ", error);
+				}
 			},
 		}
 	};

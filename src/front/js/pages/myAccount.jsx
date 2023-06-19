@@ -19,6 +19,9 @@ export const MyAccount =() =>{
             navigate("/");
             return;
         }
+        else{
+            actions.getProfile();
+        }
     }, [store.jwt_token]);
 
     const LoadPage = (num) => {
@@ -39,35 +42,43 @@ export const MyAccount =() =>{
     };
 
     return (
-        <div className="d-flex container">
-            <div className="mx-5">
-                <strong>
-                    info usuario y botones 
-                </strong>
-                <div>
-                    icono o foto del usuario<br/>
-                    <span>Nombre del usuario</span> <br/>
-                    <span>Cedula del usuario</span><br/>
-                    <span>Carrera del usuario</span>
-                </div>
-                <div>
-                    <strong>
-                        array de botones con funciones
-                    </strong>
-                    <div className="d-flex flex-column">
-                        <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(1)} >Carga de Data de los usuarios</button>
-                        <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(2)} >Cargar materias </button>
-                        <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(3)} >Iniciar Sesion</button>
-                        <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(4)} >Iniciar Sesion</button> 
+        <div>
+            {store.jwt_token ? (
+                <div className="d-flex container">
+                    <div className="mx-5">
+                        <div>
+                            icono o foto del usuario<br/>
+                            {store.user ? (<div>        
+                            <h6>Nombre y apellido: 
+                            {" "+ store.user.name} { store.user.last_name}</h6>
+                            <h6>Cedula: {store.user.user_ID}</h6>
+                            <h6>Carrera: {store.user.career}</h6>
+                            </div>):(<div> Loading...</div>)}
+                        </div>
+                        <div>
+                            <strong>
+                                array de botones con funciones
+                            </strong>
+                            {store.user ? 
+                                store.user.career == "admin"? (
+                                <div className="d-flex flex-column">
+                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(1)} >Carga de Data de los usuarios</button>
+                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(2)} >Cargar materias </button>                               
+                                </div> 
+                            ):(
+                                <div className="d-flex flex-column">
+                                    <button type="submit" className="btn btn-primary mt-3"  >Inscribir semestre</button>
+                                    <button type="submit" className="btn btn-primary mt-3"  >Ver historial de materias </button>                               
+                                </div> 
+                            )
+                            :(<div> Loading...</div>)}                                               
+                        </div>
                     </div>
-
+                    <div>
+                        {view == 0 ? <p>elem 2 </p> :LoadPage2(view)}
+                    </div>            
                 </div>
-            </div>
-            <div>
-                {view == 0 ? <p>elem 2 </p> :LoadPage2(view)}
-            </div>
-            
-            
+            ):(<div>informacion confidencial</div>)}
         </div>
     );
 };
