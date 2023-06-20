@@ -16,7 +16,7 @@ class User(db.Model):
     materia = db.relationship('Studen_grade', back_populates="student")
 
     def __repr__(self):
-        return f'<User {self.email}>'
+        return f'<User {self.user_ID}>'
 
     def serialize(self):
         return {
@@ -67,9 +67,9 @@ class Studen_subject(db.Model):
 
 class Studen_grade(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    notas = db.Column(db.Integer, unique=True, nullable=False)
+    notas = db.Column(db.Integer, unique=False, nullable=False)
     materias = db.Column(db.String(80), unique=False, nullable=False)
-    codigo = db.Column(db.Integer, unique=True, nullable=False)
+    codigo = db.Column(db.Integer, unique=False, nullable=False)
     user_id = db.Column(db.ForeignKey('user.id'))
     student = db.relationship('User', back_populates="materia")
 
@@ -80,5 +80,4 @@ class Studen_grade(db.Model):
             "materias": self.materias,
             "codigo": self.codigo,
             "user_id": self.user_id,
-
         }

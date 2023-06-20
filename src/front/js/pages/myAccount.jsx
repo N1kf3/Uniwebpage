@@ -2,6 +2,7 @@ import React , { useState, useContext,useEffect }from "react";
 import * as XLSX from 'xlsx';
 import { Upload_files } from "../component/uploadFiles.jsx";
 import { Upload} from "../component/upload.jsx";
+import { Enroll} from "../component/enroll.jsx";
 import { Link ,useNavigate} from "react-router-dom";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
@@ -38,6 +39,11 @@ export const MyAccount =() =>{
                 <Upload/>
             )
         }
+        if ( view == 3){
+            return(
+                <Enroll/>
+            )
+        }
 
     };
 
@@ -67,8 +73,8 @@ export const MyAccount =() =>{
                                 </div> 
                             ):(
                                 <div className="d-flex flex-column">
-                                    <button type="submit" className="btn btn-primary mt-3"  >Inscribir semestre</button>
-                                    <button type="submit" className="btn btn-primary mt-3"  >Ver historial de materias </button>                               
+                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(3)}  >Inscribir semestre</button>
+                                    <button type="submit" className="btn btn-primary mt-3"  onClick={(e) => LoadPage(4)}  >Ver historial de materias </button>                               
                                 </div> 
                             )
                             :(<div> Loading...</div>)}                                               

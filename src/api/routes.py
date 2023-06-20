@@ -134,9 +134,10 @@ def handle_private():
     }), 200
 
 
-@api.route('/handle_signature_data', methods=['POST'])
+@api.route('/handle_signature_data', methods=['POST', 'GET'])
 def handle_signature_data():
     data = request.json
+
     if request.method == 'POST':
         for info in data:
             new_line_data = Studen_subject()
@@ -147,3 +148,22 @@ def handle_signature_data():
             db.session.add(new_line_data)
         db.session.commit()
         return jsonify(data), 201
+
+
+@api.route('/handle_info', methods=['GET'])
+def handle_info():
+    print("entra al get")
+    signatures = [{}]
+    signature = Studen_subject.query.all()
+    for sig in signature:
+        signatures.append({
+            "semestre": sig.semestre,
+            "materias": sig.materias,
+            "codigo": sig.codigo,
+            "prelaciones": sig.prelaciones
+        })
+        print(sig)
+
+    return jsonify({
+        "signature": signatures
+    }), 201
