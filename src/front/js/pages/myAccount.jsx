@@ -13,7 +13,7 @@ export const MyAccount =() =>{
     const [view, setView] = useState(0);    
     const { actions, store } = useContext(Context); 
     const navigate = useNavigate();
-
+    let datasignature =[]
     useEffect(() => {
         if (store.jwt_token == null) {
             alert("Por favor inicia sesión con tus credenciales de usuario")
@@ -21,13 +21,38 @@ export const MyAccount =() =>{
             return;
         }
         else{
-            actions.getProfile();
+            if (store.user == null){
+                actions.getProfile();
+                console.log('entra al privado')
+                fetchSignature()
+            }
         }
     }, [store.jwt_token]);
 
     const LoadPage = (num) => {
         setView(num);
       };
+
+
+
+    const fetchSignature = async ()=>{
+        try{
+            const response = await fetch(process.env.BACKEND_URL + "/api/handle_info", {           
+                method:"GET", 
+                headers: {
+                    "Content-Type":"application/json",
+                    'Accept': '*/*'
+                }                
+            })
+            if (response.status == 201){
+                let resp = await response.json()                 
+                store.user_Sig = resp.signature                                                  
+            }
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
     const LoadPage2 = (view) => {
         if( view == 1){
             return(
@@ -80,7 +105,7 @@ export const MyAccount =() =>{
                             :(<div> Loading...</div>)}                                               
                         </div>
                     </div>
-                    <div>
+                    <div className="d-flex container">
                         {view == 0 ? <p>elem 2 </p> :LoadPage2(view)}
                     </div>            
                 </div>

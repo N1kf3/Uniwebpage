@@ -4,6 +4,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null,
 			jwt_token: localStorage.getItem("jwt_token"),
 			user: null,	
+			user_Sig: null,
+			falg:0,
 			demo: [
 				{
 					title: "FIRST",

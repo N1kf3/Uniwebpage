@@ -15,6 +15,7 @@ export const Navbar = () => {
 		console.log("cerro sesion")
 		localStorage.removeItem("jwt_token");
 		store.jwt_token= null;
+		store.user=null;
 		getViewInfo(view)
 		alert("se cerro la sesion")
 	}
