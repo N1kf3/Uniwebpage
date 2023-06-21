@@ -99,7 +99,6 @@ def handle_signup():
 @api.route('/login', methods=['POST'])
 def handle_login():
     data = request.json
-    print(data)
     if data['cedula'] == 'admin':
         return jsonify({
             "jwt_token": data['password']
@@ -126,7 +125,6 @@ def handle_login():
 @api.route('/private', methods=['GET'])
 @jwt_required()
 def handle_private():
-    print('entro al private')
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
     return jsonify({
@@ -134,10 +132,9 @@ def handle_private():
     }), 200
 
 
-@api.route('/handle_signature_data', methods=['POST', 'GET'])
-def handle_signature_data():
+@api.route('/handle_subject_data', methods=['POST', 'GET'])
+def handle_subject_data():
     data = request.json
-
     if request.method == 'POST':
         for info in data:
             new_line_data = Studen_subject()
@@ -152,18 +149,30 @@ def handle_signature_data():
 
 @api.route('/handle_info', methods=['GET'])
 def handle_info():
-    print("entra al get")
-    signatures = [{}]
-    signature = Studen_subject.query.all()
-    for sig in signature:
-        signatures.append({
+    subjects = [{}]
+    subject = Studen_subject.query.all()
+    for sig in subject:
+        subjects.append({
             "semestre": sig.semestre,
             "materias": sig.materias,
             "codigo": sig.codigo,
             "prelaciones": sig.prelaciones
         })
-        print(sig)
-
     return jsonify({
-        "signature": signatures
+        "subject": subjects
     }), 201
+
+
+@api.route('/upload_subject', methods=['POST'])
+def handle_upload_subject():
+    data = request.json
+    for subject in data[1:]:
+        print("objetos", subject)
+        new_line_subject = Studen_grade()
+        new_line_subject.user_id = data[0]['UserID']
+        new_line_subject.notas = 0
+        new_line_subject.materias = subject['materias']
+        new_line_subject.codigo = subject['codigo']
+        db.session.add(new_line_subject)
+    db.session.commit()
+    return jsonify(data), 201

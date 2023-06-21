@@ -13,7 +13,6 @@ export const MyAccount =() =>{
     const [view, setView] = useState(0);    
     const { actions, store } = useContext(Context); 
     const navigate = useNavigate();
-    let datasignature =[]
     useEffect(() => {
         if (store.jwt_token == null) {
             alert("Por favor inicia sesión con tus credenciales de usuario")
@@ -24,7 +23,7 @@ export const MyAccount =() =>{
             if (store.user == null){
                 actions.getProfile();
                 console.log('entra al privado')
-                fetchSignature()
+                fetchSubject()
             }
         }
     }, [store.jwt_token]);
@@ -35,7 +34,7 @@ export const MyAccount =() =>{
 
 
 
-    const fetchSignature = async ()=>{
+    const fetchSubject = async ()=>{
         try{
             const response = await fetch(process.env.BACKEND_URL + "/api/handle_info", {           
                 method:"GET", 
@@ -46,7 +45,9 @@ export const MyAccount =() =>{
             })
             if (response.status == 201){
                 let resp = await response.json()                 
-                store.user_Sig = resp.signature                                                  
+                store.user_Sig = resp.subject                                                  
+            }else{
+                throw new Error(response.status)
             }
         }
         catch(error){
@@ -65,6 +66,11 @@ export const MyAccount =() =>{
             )
         }
         if ( view == 3){
+            return(
+                <Enroll/>
+            )
+        }
+        if ( view == 4){
             return(
                 <Enroll/>
             )
@@ -94,12 +100,13 @@ export const MyAccount =() =>{
                                 store.user.career == "admin"? (
                                 <div className="d-flex flex-column">
                                     <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(1)} >Carga de Data de los usuarios</button>
-                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(2)} >Cargar materias </button>                               
+                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(2)} >Cargar Materias </button>                               
+                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(3)} >Cargar Notas </button>
                                 </div> 
                             ):(
                                 <div className="d-flex flex-column">
-                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(3)}  >Inscribir semestre</button>
-                                    <button type="submit" className="btn btn-primary mt-3"  onClick={(e) => LoadPage(4)}  >Ver historial de materias </button>                               
+                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(4)}  >Inscribir Semestre</button>
+                                    <button type="submit" className="btn btn-primary mt-3"  onClick={(e) => LoadPage(5)}  >Ver historial de materias </button>                               
                                 </div> 
                             )
                             :(<div> Loading...</div>)}                                               

@@ -36,7 +36,7 @@ export const Signin =() =>{
                 else{
                     let resp = await response.json()            
                     alert(resp.Error)
-                    throw new Error(response.status)
+                    throw new Error(response.body)
                 }
             }
             catch(error){

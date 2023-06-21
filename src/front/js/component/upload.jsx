@@ -44,7 +44,7 @@ export const Upload = ()=>{
     
     const sendFileBack = async (data) =>{
         try{
-            const response = await fetch(process.env.BACKEND_URL + "/api/handle_signature_data" , {
+            const response = await fetch(process.env.BACKEND_URL + "/api/handle_subject_data" , {
                 method: "POST",
                 headers: {
                     "Content-Type":"application/json"

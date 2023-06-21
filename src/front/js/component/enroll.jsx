@@ -40,7 +40,7 @@ export const Enroll =()=>{
     }
 
     const showList=(tu)=>{
-        let filteredSignature= control_sig(store.user.materia , store.user_Sig)
+        let filteredSubject= control_sig(store.user.materia , store.user_Sig)
         switch(tu){
             case "Semestre I": 
                 tu = "I";
@@ -63,7 +63,7 @@ export const Enroll =()=>{
         }
         //cambiar el array
         console.log("store.user.materia",store.user.materia)
-        let newArray = filteredSignature.filter((sem)=> sem.semestre == tu)
+        let newArray = filteredSubject.filter((sem)=> sem.semestre == tu)
         getShowSig(newArray)       
         let codesArr = []
         for (let i =0; i< store.user.materia.length; i++ ){
@@ -96,19 +96,66 @@ export const Enroll =()=>{
 
         }
     }
-    let enrolledSig=[]
+
     const updateEnroll =(cod)=>{
         console.log(cod)
-        let ar
-        for (let i =0; i< showSig.length; i++){
-            let codi = showSig[i].codigo
-            if (codi == cod){
-                console.log("materia seleccionada",showSig[i])
-                ar = showSig[i]
+        let flag = true
+        for (let i =0; i< theArray.length; i++){
+            if (theArray[i].codigo == cod)
+                flag = false
+        }
+        if (flag){
+            for (let i =0; i< showSig.length; i++){
+                let codi = showSig[i].codigo
+                if (codi == cod){
+                    console.log("materia seleccionada",showSig[i])                
+                    setTheArray(theArray => [...theArray, showSig[i]])    
+                }
+                }
+        }        
+    }
+
+    const removeEnroll =(index)=>{
+        let indexdelete=index
+        console.log(indexdelete)
+        setTheArray( theArray.filter((item,index)=>{
+            if (index != indexdelete){
+                return item
             }
+        }))        
+    }
+
+    const funcCheck=(codigo)=>{
+        for (let i =0; i< theArray.length; i++){
+            if (theArray[i].codigo == codigo)
+                return true
+        }
+        return false
+    }
+
+    const uploadSig= async()=>{
+        let arr = theArray
+        arr.unshift({"UserID":store.user.id})
+        console.log(arr)
+        try {
+            const response = await fetch(process.env.BACKEND_URL + "/api/upload_subject",{
+                method: "POST",
+                headers: {
+                    "Content-Type":"application/json"                
+                } ,
+                body : JSON.stringify(theArray)
+                    
+                   
+            });
+            if (response.status ==201){
+                console.log("se cargaron las materias con exito")
+            } else{
+                throw new Error(response.status)
             }
-        setTheArray(theArray => [...theArray, ar])    
-        
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 
@@ -126,32 +173,40 @@ export const Enroll =()=>{
                     <option value="Semestre V">Semestre V</option>
                     <option value="Semestre VI">Semestre VI</option>                
                 </select>
-                <div className="d-flex ">
-                    <ul className="list-group list-group-flush w-50">
+                <div className="d-flex justify-content-between">
+                    <ul className="list-group list-group-flush ">
                         {!showSig ? (<li className="list-group-item">Loading...</li>)
                         :(
                             showSig.map((sig,index)=>
                             <li htmlFor="check" className="list-group-item" value={sig.semestre} key={sig.codigo}  >
-                                <input name="check" disabled={funcPrela(sig.prelaciones,sig.semestre) ?(false):(true)} className="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault" 
+                                <input name="check" disabled={funcPrela(sig.prelaciones,sig.semestre) ?(false):(true)} 
+                                checked={funcCheck(sig.codigo)?(true):(false)}
+                                className="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault" 
                                 onChange={(e)=>updateEnroll(sig.codigo)}/>
                                 {sig.codigo} {sig.materias}
                             </li>                            
                         ))}                        
                     </ul>
-
-                        {!showSig ? (<div >uno</div>):
-                            (<div className="flex-fill ms-3 form-control border w-75" id="exampleFormControlTextarea1" rows="3" 
+                    {!showSig ? (<div >uno</div>):
+                        (<div className=" ms-3 form-control border w-50" id="exampleFormControlTextarea1" 
                             style={{display: view ? 'none' : 'block' }}>
-                                {!showSig ? (<div display={none}>uno</div>)
-                                :(
-                                    theArray.map(sig=>                            
-                                    <div >
-                                    {sig.codigo} {sig.materias}
-                                    </div>                                                      
-                                ))}   
-                            </div> )}
-             
-
+                            <ul className="list-group list_bullet" >                
+                            {!showSig ? (<div display={"none"}>uno</div>)
+                            :(
+                                theArray.map((sig,index)=>                            
+                                <li htmlFor="check" className="d-flex justify-content-between" key={index} id={index} >
+                                    <span>{sig.codigo}-{sig.materias}</span>                            
+                                    <span className="ms-5 delete_list" id={index} onClick={(e)=>removeEnroll(e.target.id)}><i  id={index}  className="text-danger fa-regular fa-trash-can"></i></span>
+                                </li>                                                      
+                            ))}   
+                        </ul>
+                        </div> 
+                    )}
+                </div>
+                <div className="d-flex justify-content-end mt-3">
+                    <button type="submit" className="btn btn-success btn-md " style={{display: theArray.length == 0 ? 'none' : 'block' }} onClick={(e)=>uploadSig()}>
+                        INSCRIBIRSE
+                    </button>
                 </div>
             </div>
 
