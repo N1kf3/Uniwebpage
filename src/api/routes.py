@@ -167,7 +167,6 @@ def handle_info():
 def handle_upload_subject():
     data = request.json
     for subject in data[1:]:
-        print("objetos", subject)
         new_line_subject = Studen_grade()
         new_line_subject.user_id = data[0]['UserID']
         new_line_subject.notas = 0
@@ -176,3 +175,39 @@ def handle_upload_subject():
         db.session.add(new_line_subject)
     db.session.commit()
     return jsonify(data), 201
+
+
+@api.route('/get_student', methods=['POST'])
+def handle_get_student():
+    data = request.json
+    user = User.query.filter_by(user_ID=data['cedula']).one_or_none()
+    if user is not None:
+        return jsonify({
+            "user": user.serialize()
+        }), 201
+    else:
+        return jsonify({
+            "Error": "Usuario no registrado"
+        }), 400
+
+
+@api.route('/update_subject/<int:id>', methods=['POST'])
+def handle_update_subject(id):
+    subjects = []
+    data = request.json
+    user = User.query.filter_by(user_ID=id).one_or_none()
+    materia = Studen_grade.query.filter_by(user_id=user.id).all()
+    for i in materia:
+        mat = i.serialize()
+        subjects.append(mat)
+    for newGrade in data:
+        for userGrade in subjects:
+            if userGrade['notas'] == 0 and newGrade['codigo'] == userGrade['codigo'] and int(newGrade['notas']) > 0:
+                materiaGrade = Studen_grade.query.filter_by(
+                    user_id=user.id, codigo=newGrade['codigo'], notas=0).one_or_none()
+                materiaGrade.notas = newGrade['notas']
+                db.session.commit()
+
+    return jsonify({
+        "Success": "materias actualizadas"
+    }), 201

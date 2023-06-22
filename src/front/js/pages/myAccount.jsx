@@ -3,6 +3,7 @@ import * as XLSX from 'xlsx';
 import { Upload_files } from "../component/uploadFiles.jsx";
 import { Upload} from "../component/upload.jsx";
 import { Enroll} from "../component/enroll.jsx";
+import { UpdateGrades} from "../component/updategrades.jsx";
 import { Link ,useNavigate} from "react-router-dom";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
@@ -67,7 +68,7 @@ export const MyAccount =() =>{
         }
         if ( view == 3){
             return(
-                <Enroll/>
+                <UpdateGrades/>
             )
         }
         if ( view == 4){
@@ -112,8 +113,8 @@ export const MyAccount =() =>{
                             :(<div> Loading...</div>)}                                               
                         </div>
                     </div>
-                    <div className="d-flex container">
-                        {view == 0 ? <p>elem 2 </p> :LoadPage2(view)}
+                    <div className="container">
+                        {view == 0 ? (""):LoadPage2(view)}
                     </div>            
                 </div>
             ):(<div>informacion confidencial</div>)}

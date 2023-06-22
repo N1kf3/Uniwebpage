@@ -27,7 +27,6 @@ export const Enroll =()=>{
     });
 
     const control_sig=(materias, materiasData)=>{
-        console.log("materias del usuario",materias)
         let codesArr=[]
         for (let i =0; i< materias.length; i++ ){
             if (materias[i].notas>= 10)
@@ -62,7 +61,6 @@ export const Enroll =()=>{
                 break;
         }
         //cambiar el array
-        console.log("store.user.materia",store.user.materia)
         let newArray = filteredSubject.filter((sem)=> sem.semestre == tu)
         getShowSig(newArray)       
         let codesArr = []
@@ -70,16 +68,16 @@ export const Enroll =()=>{
             if (store.user.materia[i].notas>= 10)
                 codesArr.push(store.user.materia[i].codigo)
         }
+        console.log(codesArr)
         getCodeArr(codesArr)
         getView(false)
-        console.log("codigos de materias para prealciones",codesArr)
 
     }
 
     const funcPrela=(prelaciones, semestre)=>{
         let prela=[]
         prela = prelaciones.split(" ");
-        if (semestre == "I"){
+        if (prela[0]==0){
             return true
         } 
         else{
@@ -87,9 +85,9 @@ export const Enroll =()=>{
             for (let i =0; i< codeArr.length; i++){
                 for (let j=0; j<prela.length;j++)
                     if (codeArr[i]== prela[j])
-                        cont =1
+                        cont = cont +1
             }
-            if (cont == 0)
+            if (cont == 0 || cont != prela.length)
                 return false
             else
                 return true
@@ -98,7 +96,6 @@ export const Enroll =()=>{
     }
 
     const updateEnroll =(cod)=>{
-        console.log(cod)
         let flag = true
         for (let i =0; i< theArray.length; i++){
             if (theArray[i].codigo == cod)
@@ -107,8 +104,7 @@ export const Enroll =()=>{
         if (flag){
             for (let i =0; i< showSig.length; i++){
                 let codi = showSig[i].codigo
-                if (codi == cod){
-                    console.log("materia seleccionada",showSig[i])                
+                if (codi == cod){                                
                     setTheArray(theArray => [...theArray, showSig[i]])    
                 }
                 }
@@ -116,8 +112,7 @@ export const Enroll =()=>{
     }
 
     const removeEnroll =(index)=>{
-        let indexdelete=index
-        console.log(indexdelete)
+        let indexdelete=index       
         setTheArray( theArray.filter((item,index)=>{
             if (index != indexdelete){
                 return item
@@ -136,7 +131,6 @@ export const Enroll =()=>{
     const uploadSig= async()=>{
         let arr = theArray
         arr.unshift({"UserID":store.user.id})
-        console.log(arr)
         try {
             const response = await fetch(process.env.BACKEND_URL + "/api/upload_subject",{
                 method: "POST",
@@ -148,7 +142,9 @@ export const Enroll =()=>{
                    
             });
             if (response.status ==201){
-                console.log("se cargaron las materias con exito")
+                alert("se cargaron las materias con exito")
+                setTheArray([])
+
             } else{
                 throw new Error(response.status)
             }
@@ -189,7 +185,7 @@ export const Enroll =()=>{
                     </ul>
                     {!showSig ? (<div >uno</div>):
                         (<div className=" ms-3 form-control border w-50" id="exampleFormControlTextarea1" 
-                            style={{display: view ? 'none' : 'block' }}>
+                            style={{display: showSig.length ==0 ? 'none' : 'block' }}>
                             <ul className="list-group list_bullet" >                
                             {!showSig ? (<div display={"none"}>uno</div>)
                             :(
@@ -204,7 +200,7 @@ export const Enroll =()=>{
                     )}
                 </div>
                 <div className="d-flex justify-content-end mt-3">
-                    <button type="submit" className="btn btn-success btn-md " style={{display: theArray.length == 0 ? 'none' : 'block' }} onClick={(e)=>uploadSig()}>
+                    <button type="submit" className="btn btn-success btn-md " style={{display: showSig.length == 0 ? 'none' : 'block' }} onClick={(e)=>uploadSig()}>
                         INSCRIBIRSE
                     </button>
                 </div>
