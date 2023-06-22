@@ -9,7 +9,6 @@ export const Enroll =()=>{
     const { actions, store } = useContext(Context); 
     const [showSig, getShowSig]= useState([]);
     const [codeArr, getCodeArr]= useState([]);
-    const [view,getView]= useState(true)
     const [theArray, setTheArray] = useState([]);
 
     useEffect(() => {
@@ -70,7 +69,6 @@ export const Enroll =()=>{
         }
         console.log(codesArr)
         getCodeArr(codesArr)
-        getView(false)
 
     }
 
@@ -144,6 +142,7 @@ export const Enroll =()=>{
             if (response.status ==201){
                 alert("se cargaron las materias con exito")
                 setTheArray([])
+                actions.getProfile()
 
             } else{
                 throw new Error(response.status)
@@ -190,7 +189,7 @@ export const Enroll =()=>{
                             {!showSig ? (<div display={"none"}>uno</div>)
                             :(
                                 theArray.map((sig,index)=>                            
-                                <li htmlFor="check" className="d-flex justify-content-between" key={index} id={index} >
+                                <li htmlFor="check" className="d-flex justify-content-between border-bottom px-3 mb-2 pb-2" key={index} id={index} >
                                     <span>{sig.codigo}-{sig.materias}</span>                            
                                     <span className="ms-5 delete_list" id={index} onClick={(e)=>removeEnroll(e.target.id)}><i  id={index}  className="text-danger fa-regular fa-trash-can"></i></span>
                                 </li>                                                      

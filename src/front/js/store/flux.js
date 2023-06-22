@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: null,	
 			user_Sig: null,
 			falg:0,
+			dropArr:[],
 			demo: [
 				{
 					title: "FIRST",

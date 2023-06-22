@@ -2,6 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# user infomation for login
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -14,6 +16,7 @@ class User(db.Model):
     hashed_password = db.Column(db.String(500), unique=False, nullable=False)
     role = db.Column(db.String(80), unique=False, nullable=False)
     materia = db.relationship('Studen_grade', back_populates="student")
+    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
     def __repr__(self):
         return f'<User {self.user_ID}>'
@@ -27,8 +30,11 @@ class User(db.Model):
             "user_ID": self.user_ID,
             "career": self.career,
             "role": self.role,
-            "materia": [mat.serialize() for mat in self.materia]
+            "materia": [mat.serialize() for mat in self.materia],
+            "is_active": self.is_active
         }
+
+# student data base
 
 
 class Student_Data(db.Model):
@@ -47,6 +53,8 @@ class Student_Data(db.Model):
             "carrera": self.carrera
         }
 
+# subjects database
+
 
 class Studen_subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -64,10 +72,12 @@ class Studen_subject(db.Model):
             "prelaciones": self.prelaciones
         }
 
+# subjects per student
+
 
 class Studen_grade(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    notas = db.Column(db.Integer, unique=False, nullable=False)
+    notas = db.Column(db.String(3), unique=False, nullable=False)
     materias = db.Column(db.String(80), unique=False, nullable=False)
     codigo = db.Column(db.Integer, unique=False, nullable=False)
     user_id = db.Column(db.ForeignKey('user.id'))

@@ -4,6 +4,9 @@ import { Upload_files } from "../component/uploadFiles.jsx";
 import { Upload} from "../component/upload.jsx";
 import { Enroll} from "../component/enroll.jsx";
 import { UpdateGrades} from "../component/updategrades.jsx";
+import { SignatureHistory} from "../component/signaturehistory.jsx";
+import { DropSignature} from "../component/dropsignature.jsx";
+import { DropStudent} from "../component/dropstudent.jsx";
 import { Link ,useNavigate} from "react-router-dom";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
@@ -76,8 +79,34 @@ export const MyAccount =() =>{
                 <Enroll/>
             )
         }
+        if ( view == 5){
+            return(
+                <SignatureHistory/>
+            )
+        }
+        if ( view == 6){
+            return(
+                <DropSignature/>
+            )
+        }
+        if ( view == 7){
+            return(
+                <DropStudent/>
+            )
+        }
 
     };
+
+    const sortSignatures=()=>{
+        let arr =[]
+        for (let i=0;i<store.user.materia.length;i++){
+            if (store.user.materia[i].notas == "0"){
+                arr.push(store.user.materia[i])
+            }
+        }
+        store.dropArr=arr
+        console.log(arr)
+    }
 
     return (
         <div>
@@ -103,11 +132,13 @@ export const MyAccount =() =>{
                                     <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(1)} >Carga de Data de los usuarios</button>
                                     <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(2)} >Cargar Materias </button>                               
                                     <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(3)} >Cargar Notas </button>
+                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(7)} >Deshabilitar estudiante </button>
                                 </div> 
                             ):(
                                 <div className="d-flex flex-column">
                                     <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(4)}  >Inscribir Semestre</button>
                                     <button type="submit" className="btn btn-primary mt-3"  onClick={(e) => LoadPage(5)}  >Ver historial de materias </button>                               
+                                    <button type="submit" className="btn btn-primary mt-3"  onClick={(e) => {LoadPage(6);sortSignatures()}}  >Retirar Materia </button>                               
                                 </div> 
                             )
                             :(<div> Loading...</div>)}                                               

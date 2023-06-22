@@ -10,22 +10,16 @@ from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 api = Blueprint('api', __name__)
 
-
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
-
-    return jsonify(response_body), 200
+# handles user file upload
 
 
 @api.route('/handle_user_data', methods=['POST'])
 def handle_user_data():
     data = request.json
-    if request.method == 'POST':
-        for info in data:
+    for info in data:
+        oldStudent = Student_Data.query.filter_by(
+            cedula=info['Cedula']).one_or_none()
+        if oldStudent is None:
             new_line_data = Student_Data()
             new_line_data.cedula = info['Cedula']
             new_line_data.nombre = info['Nombre']
@@ -33,7 +27,9 @@ def handle_user_data():
             new_line_data.carrera = info['Carrera']
             db.session.add(new_line_data)
         db.session.commit()
-        return jsonify(data), 201
+    return jsonify(data), 201
+
+# handles the retreive of information for the signup
 
 
 @api.route('/check_ID', methods=['POST'])
@@ -59,6 +55,8 @@ def handle_check_ID():
                 return jsonify({
                     "error": 'el usuario ya tiene una cuenta creada '
                 }), 400
+
+# handles the user signup
 
 
 @api.route('/signup', methods=['POST'])
@@ -87,6 +85,7 @@ def handle_signup():
             new_user.role = check_admin
             new_user.salt = salt
             new_user.hashed_password = password_hash
+            new_user.is_active = True
             db.session.add(new_user)
             db.session.commit()
             return jsonify(data), 201
@@ -95,13 +94,22 @@ def handle_signup():
             "Error": "El usuario no existe en el listado de estudiantes"
         }), 400
 
+# handles the singin of the user
+
 
 @api.route('/login', methods=['POST'])
 def handle_login():
     data = request.json
     if data['cedula'] == 'admin':
+        new_admin = Student_Data()
+        new_admin.cedula = 1
+        new_admin.nombre = "admin"
+        new_admin.apellido = " "
+        new_admin.carrera = "admin"
+        db.session.add(new_admin)
+        db.session.commit()
         return jsonify({
-            "jwt_token": data['password']
+
         }), 200
     else:
         user = User.query.filter_by(user_ID=data['cedula']).one_or_none()
@@ -109,17 +117,24 @@ def handle_login():
             return jsonify({
                 "error": "Datos incorrectos"
             }), 400
-        correct_password = check_password_hash(
-            user.hashed_password, data['password']+user.salt)
-        if not correct_password:
-            return jsonify({
-                "error": "Datos incorrectos"
-            }), 400
+        if user.is_active:
+            correct_password = check_password_hash(
+                user.hashed_password, data['password']+user.salt)
+            if not correct_password:
+                return jsonify({
+                    "error": "Datos incorrectos"
+                }), 400
+            else:
+                jwt_token = create_access_token(identity=user.id)
+                return jsonify({
+                    "jwt_token": jwt_token
+                }), 200
         else:
-            jwt_token = create_access_token(identity=user.id)
             return jsonify({
-                "jwt_token": jwt_token
-            }), 200
+                "error": "usuario deshabilitado"
+            }), 400
+
+# checks the jwt
 
 
 @api.route('/private', methods=['GET'])
@@ -130,6 +145,8 @@ def handle_private():
     return jsonify({
         "user": user.serialize()
     }), 200
+
+# handles the upload of all the subjects
 
 
 @api.route('/handle_subject_data', methods=['POST', 'GET'])
@@ -145,6 +162,8 @@ def handle_subject_data():
             db.session.add(new_line_data)
         db.session.commit()
         return jsonify(data), 201
+
+# retreives the information of all the subjects
 
 
 @api.route('/handle_info', methods=['GET'])
@@ -162,6 +181,8 @@ def handle_info():
         "subject": subjects
     }), 201
 
+# handles the adition of subjectos to the user
+
 
 @api.route('/upload_subject', methods=['POST'])
 def handle_upload_subject():
@@ -175,6 +196,8 @@ def handle_upload_subject():
         db.session.add(new_line_subject)
     db.session.commit()
     return jsonify(data), 201
+
+# retreives the user information to manipulation
 
 
 @api.route('/get_student', methods=['POST'])
@@ -190,6 +213,8 @@ def handle_get_student():
             "Error": "Usuario no registrado"
         }), 400
 
+# updates the grades of the subjects os said user
+
 
 @api.route('/update_subject/<int:id>', methods=['POST'])
 def handle_update_subject(id):
@@ -202,12 +227,26 @@ def handle_update_subject(id):
         subjects.append(mat)
     for newGrade in data:
         for userGrade in subjects:
-            if userGrade['notas'] == 0 and newGrade['codigo'] == userGrade['codigo'] and int(newGrade['notas']) > 0:
+            if userGrade['notas'] == "0" and newGrade['codigo'] == userGrade['codigo']:
                 materiaGrade = Studen_grade.query.filter_by(
-                    user_id=user.id, codigo=newGrade['codigo'], notas=0).one_or_none()
+                    user_id=user.id, codigo=newGrade['codigo'], notas="0").one_or_none()
+
                 materiaGrade.notas = newGrade['notas']
                 db.session.commit()
 
     return jsonify({
         "Success": "materias actualizadas"
+    }), 201
+
+# handles the disable/enable of users
+
+
+@api.route('/disable_user/<int:id>', methods=['POST'])
+def handle_disable_user(id):
+    data = request.json
+    user = User.query.filter_by(user_ID=id).one_or_none()
+    user.is_active = data['is_active']
+    db.session.commit()
+    return jsonify({
+        "Success": "usuario modificado"
     }), 201

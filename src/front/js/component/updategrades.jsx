@@ -29,9 +29,11 @@ export const UpdateGrades =()=>{
                 let resp = await response.json()
                 let materiasMas = []                         
                 for (let i=0;i<resp.user.materia.length;i++){
-                    if (resp.user.materia[i].notas ==0){
-                        materiasMas.push(resp.user.materia[i])
-                    }                    
+                    if (resp.user.materia[i].notas != 'RET'){
+                        if (resp.user.materia[i].notas ==0){
+                            materiasMas.push(resp.user.materia[i])
+                        }                    
+                    }
                 }                              
                 getSubjectClean(materiasMas)
                 getStudenSubject(resp.user)
@@ -65,9 +67,11 @@ export const UpdateGrades =()=>{
             });
             if (response.status==201){
                 alert("se cargaron las notas con exito")
+                getShowList(null) 
             }else{
                 alert("hubo un error al cargar las notas")
                 throw new Error(response.status)
+
             }
             
         } catch (error) {
@@ -78,10 +82,7 @@ export const UpdateGrades =()=>{
 
     return(
         <div>
-            <h3> Cargar notas</h3>
-            
-        
-            con un boton actualizar el registro de materias (Studen_grade)
+            <h3> Cargar notas</h3>            
 
             <label htmlFor="exampleInputEmail1" className="form-label"  >Ingrese nuemro de cedula</label>
             <div className="d-flex">
@@ -106,7 +107,7 @@ export const UpdateGrades =()=>{
                                 (subjectClean.map((sig,index)=>                            
                                     <li htmlFor="check" className="d-flex justify-content-between" key={index} id={index} >
                                         <span>{sig.codigo}-{sig.materias}</span>     
-                                        <input type="number" className="form-control w-25" id={index}  defaultValue={sig.notas} onChange={(e)=>changeGrade(e.target.id,e.target.value)} />	                                                           
+                                        <input type="text" className="form-control w-25" id={index}  defaultValue={sig.notas} onChange={(e)=>changeGrade(e.target.id,e.target.value)} />	                                                           
                                     </li>                                                      
                                 ))}   
                 </ul>
