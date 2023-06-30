@@ -27,3 +27,12 @@ input::-webkit-inner-spin-button {
 .app{
     min-height: 100vh;
 }
+
+.list-history{
+    max-height: 400px;
+    min-height: 400px;
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}

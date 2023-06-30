@@ -111,15 +111,24 @@ export const MyAccount =() =>{
     return (
         <div>
             {store.jwt_token ? (
-                <div className="d-flex container mt-5 ">
+                <div className="d-flex container my-5 ">
                     <div className="mx-5 border p-5 w-25">
                         <div>
-                            <img src={userImageUrl} className="img-thumbnail h-25" alt="..."/>                            
-                            {store.user ? (<div>        
-                            <h6>Nombre y apellido: <br/>
-                            {" "+ store.user.name} { store.user.last_name}</h6>
-                            <h6>Cedula: <br/>{store.user.user_ID}</h6>
-                            <h6>Carrera: <br/> {store.user.career}</h6>
+                            <img src={userImageUrl} className="img-thumbnail h-25 mb-2" alt="..."/>                            
+                            {store.user ? (
+                            <div>   
+                                <p className="mb-1">
+                                    <strong>Nombre y apellido:</strong> <br/>
+                                    {" "+ store.user.name} { store.user.last_name}
+                                </p>
+                                <p className="mb-1">
+                                    <strong>Cedula:</strong> <br/>
+                                    {store.user.user_ID}
+                                </p>
+                                <p className="mb-1">
+                                    <strong>Carrera:</strong> <br/>
+                                    {store.user.career}
+                                </p>
                             </div>):(<div> Loading...</div>)}
                         </div>
                         <div>

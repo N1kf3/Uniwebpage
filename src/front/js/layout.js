@@ -18,7 +18,7 @@ const Layout = () => {
     if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
 
     return (
-        <div className="app d-flex flex-column ">
+        <div className="app d-flex flex-column">
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />

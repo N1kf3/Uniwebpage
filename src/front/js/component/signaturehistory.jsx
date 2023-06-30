@@ -13,7 +13,7 @@ export const SignatureHistory =()=>{
         <div className="container">
             <h2 className="border-bottom">Historial de materias inscritas</h2>
           
-            <div className="container mt-5 w-75 text-center">
+            <div className="container mt-5 mb-0 text-center list-history">
                 <div className="row border-bottom">
                     <div className="col-2">
                     <strong>Codigo</strong>
@@ -38,7 +38,7 @@ export const SignatureHistory =()=>{
                         {sig.notas}
                         </div>
                     </div>                           
-                   ))}  
+                ))}  
 
 
             </div>

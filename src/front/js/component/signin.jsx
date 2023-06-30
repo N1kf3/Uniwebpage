@@ -47,7 +47,7 @@ export const Signin =() =>{
     }
 
 return(
-    <div>
+    <div className="border p-5">
         <form>
 				<div className="mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Cedula de identidad</label>

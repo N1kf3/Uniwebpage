@@ -99,7 +99,7 @@ export const UpdateGrades =()=>{
                             <label htmlFor="exampleInputEmail1" className="form-label"  >{studenSubject.user_ID} </label>
                         </div>
                    
-                        <ul className="list-group list_bullet ms-5 border-end pe-4 rounded-0" >                
+                        <ul className="list-group list_bullet ms-3 border-end pe-4 rounded-0" >                
                             {!showList ? ("")
                                         : subjectClean.length == 0? (<div>No hay materias inscritas</div>):
                                         (subjectClean.map((sig,index)=>                            
