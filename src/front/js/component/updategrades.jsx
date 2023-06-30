@@ -13,7 +13,7 @@ export const UpdateGrades =()=>{
     const [subjectClean, getSubjectClean]=useState([])
 
     const findStudent = async()=>{
-        console.log(student)
+        event.preventDefault();
         try {
             const response = await fetch(process.env.BACKEND_URL + "/api/get_student" ,{
                 method:"POST",
@@ -83,11 +83,11 @@ export const UpdateGrades =()=>{
 
     return(
         <div className="mx-5">
-            <h3 className="border-bottom"> Cargar notas</h3>             
-            <div className="input-group my-3">
+            <h3 className=""> Cargar notas</h3>             
+            <form className="input-group my-3">
                 <input type="text" className="form-control" placeholder="Ingrese numero de cedula de identidad" aria-label="Ingrese numero de cedula" aria-describedby="button-addon2" onChange={(e)=>getstudent(e.target.value)}/>
-                <button className="btn btn-outline-secondary ms-2" type="button" id="button-addon2" onClick={(e) => findStudent()}>Buscar estudiante</button>
-            </div>        
+                <button className="btn btn-outline-secondary ms-2" type="submit" id="button-addon2" onClick={(e) => findStudent()}>Buscar estudiante</button>
+            </form>        
             <div className="d-flex mt-5">
                 {!showList ? (""):(
                     <div className="d-flex">  
@@ -109,7 +109,7 @@ export const UpdateGrades =()=>{
                                             </li>                                                      
                                         ))}   
                         </ul>
-                        <button type="submit" className="btn btn-primary ms-3 h-25"  onClick={(e) => uploadGrades()}  >Cargar notas </button>   
+                        <button type="submit" className="btn btn-primary ms-3 bt-sm h-25"  onClick={(e) => uploadGrades()}  >Cargar notas </button>   
                     </div>)} 
             </div>
 

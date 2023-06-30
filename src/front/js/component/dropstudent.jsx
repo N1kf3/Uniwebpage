@@ -10,7 +10,7 @@ export const DropStudent =()=>{
     const [studentInfo , getStudentInfo] = useState()
 
     const findStudent = async()=>{
-        console.log(student)
+        event.preventDefault();
         try {
             const response = await fetch(process.env.BACKEND_URL + "/api/get_student" ,{
                 method:"POST",
@@ -74,11 +74,11 @@ export const DropStudent =()=>{
 
     return(
         <div className="mx-5"> 
-            <h3 className="border-bottom"> Deshabilitar Estudiante</h3>
-            <div className="input-group my-3">
+            <h3 className=""> Deshabilitar Estudiante</h3>
+            <form className="input-group my-3">
                 <input type="text" className="form-control" placeholder="Ingrese numero de cedula de identidad" aria-label="Ingrese numero de cedula de identidad" aria-describedby="button-addon2" onChange={(e)=>getstudent(e.target.value)}/>
-                <button className="btn btn-outline-secondary ms-2" type="button" id="button-addon2" onClick={(e) => findStudent()}>Buscar estudiante</button>
-            </div> 
+                <button className="btn btn-outline-secondary ms-2" type="submit" id="button-addon2" onClick={(e) => findStudent()}>Buscar estudiante</button>
+            </form> 
             <div className="mt-4">
                 {studentInfo ?(<div>
                     El usuario se encuentra {studentInfo.is_active?("Habilitado"):("Deshabilitado")} {`=>`}

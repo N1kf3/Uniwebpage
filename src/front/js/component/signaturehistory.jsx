@@ -11,7 +11,7 @@ export const SignatureHistory =()=>{
 
     return(
         <div className="container">
-            <h2 className="border-bottom">Historial de materias inscritas</h2>
+            <h2 className="">Historial de materias inscritas</h2>
           
             <div className="container mt-5 mb-0 text-center list-history">
                 <div className="row border-bottom">

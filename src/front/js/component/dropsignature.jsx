@@ -72,7 +72,7 @@ export const DropSignature =()=>{
 
     return(
         <div className="container"> 
-            <h2 className="border-bottom">Retirar materias</h2>
+            <h2 className="">Retirar materias</h2>
             {!currentSig2.length ==0? (<div>
 
                 <h5 className="form-label mt-4"> Selecione las materias que desea retirar</h5>           

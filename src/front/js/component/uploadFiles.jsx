@@ -66,7 +66,7 @@ export const Upload_files = ()=>{
     return(
         <div className="mx-5">           
                 <div className="wrapper">
-                    <h3 className="border-bottom">Cargar informacion de los estudiantes</h3>
+                    <h3 className="">Cargar informacion de los estudiantes</h3>
                     <form className="form-group custom-form mt-3" onSubmit={handleFileSubmit}>
                         <div className="input-group">
                             <input type="file" className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required onChange={handleFile}/>

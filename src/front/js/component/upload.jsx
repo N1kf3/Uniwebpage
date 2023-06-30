@@ -67,7 +67,7 @@ export const Upload = ()=>{
     return(
         <div className="mx-5">           
                 <div className="wrapper">
-                    <h3 className="border-bottom">Cargar materias</h3>
+                    <h3 className="">Cargar materias</h3>
 
                     <form className="form-group custom-form mt-3" onSubmit={handleFileSubmit}>
                         <div className="input-group">
