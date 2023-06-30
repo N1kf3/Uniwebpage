@@ -81,7 +81,7 @@ export const Signup =() =>{
 
 
     return (
-        <div className="container mt-5">  
+        <div className="container px-5 mt-5">  
             <form>
 				<div className="">
 					<label htmlFor="exampleInputEmail1" className="form-label" >Cedula de identidad</label>
@@ -90,15 +90,15 @@ export const Signup =() =>{
                 	
 				<button type="submit" className={`btn btn-primary mt-3 ${viewInfo == 0? "": "none-button"}`} onClick={(e)=>{check_ID(userID)}}>Buscar</button>
                 <div className={` ${viewInfo == 1 ? "": "none-button"}`}>
-                    <label htmlFor="exampleInputEmail1" className="form-label"  >Nombre</label>
+                    <label htmlFor="exampleInputEmail1" className="form-label mt-2"  >Nombre</label>
                     <input type="text" className="form-control" id="exampleInputcedula" value={user == null ? " " : user.nombre} disabled />	
-                    <label htmlFor="exampleInputEmail1" className="form-label" >Apellido</label>
+                    <label htmlFor="exampleInputEmail1" className="form-label mt-2" >Apellido</label>
                     <input type="text" className="form-control" id="exampleInputcedula" value={user == null ? " " : user.apellido} disabled />	
-                    <label htmlFor="exampleInputEmail1" className="form-label" >Carrera</label>
+                    <label htmlFor="exampleInputEmail1" className="form-label mt-2" >Carrera</label>
                     <input type="text" className="form-control" id="exampleInputcedula" value={user == null ? " " : user.carrera} disabled />
-                    <label htmlFor="exampleInputEmail1" className="form-label" >Correo electronico</label>	
+                    <label htmlFor="exampleInputEmail1" className="form-label mt-2" >Correo electronico</label>	
                     <input type="email" className="form-control" id="exampleInputcedula" onChange={(e)=>{getUserEmail(e.target.value)}} />
-                    <label htmlFor="exampleInputEmail1" className="form-label" >Contraseña</label>
+                    <label htmlFor="exampleInputEmail1" className="form-label mt-2" >Contraseña</label>
                     <input type="password" className="form-control" id="exampleInputcedula" onChange={(e)=>{getUserPass(e.target.value)}}/>
                     <button type="submit" className="btn btn-primary mt-3" onClick={signup}>Crear cuenta</button>
                 </div>

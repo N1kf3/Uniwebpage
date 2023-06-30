@@ -58,7 +58,7 @@ return(
 					<input type="password" className="form-control" id="exampleInputPassword1" onChange={(e)=>getUserPass(e.target.value)}/>
 				</div>
 				<Link to='/'>
-				<button type="submit" className="btn btn-primary" onClick={tryLogIn}>Iniciar Sesion</button>
+				<button type="submit" className="btn btn-primary btn-sm" onClick={tryLogIn}>Iniciar Sesion</button>
 				</Link>
 			
 			</form>

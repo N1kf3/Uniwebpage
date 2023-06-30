@@ -109,10 +109,10 @@ export const MyAccount =() =>{
     }
 
     return (
-        <div>
+        <div className="">
             {store.jwt_token ? (
                 <div className="d-flex container my-5 ">
-                    <div className="mx-5 border p-5 w-25">
+                    <div className="mx-5 border p-5 w-25 bg-white">
                         <div>
                             <img src={userImageUrl} className="img-thumbnail h-25 mb-2" alt="..."/>                            
                             {store.user ? (
@@ -135,22 +135,22 @@ export const MyAccount =() =>{
                             {store.user ? 
                                 store.user.career == "admin"? (
                                 <div className="d-flex flex-column">
-                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(1)} >Carga de Data de los usuarios</button>
-                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(2)} >Cargar Materias </button>                               
-                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(3)} >Cargar Notas </button>
-                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(7)} >Deshabilitar estudiante </button>
+                                    <button type="submit" className="btn btn-primary mt-3 btn-sm" onClick={(e) => LoadPage(1)} >Carga de Data de los usuarios</button>
+                                    <button type="submit" className="btn btn-primary mt-3 btn-sm" onClick={(e) => LoadPage(2)} >Cargar Materias </button>                               
+                                    <button type="submit" className="btn btn-primary mt-3 btn-sm" onClick={(e) => LoadPage(3)} >Cargar Notas </button>
+                                    <button type="submit" className="btn btn-primary mt-3 btn-sm" onClick={(e) => LoadPage(7)} >Deshabilitar estudiante </button>
                                 </div> 
                             ):(
                                 <div className="d-flex flex-column">
-                                    <button type="submit" className="btn btn-primary mt-3" onClick={(e) => LoadPage(4)}  >Inscribir Semestre</button>
-                                    <button type="submit" className="btn btn-primary mt-3"  onClick={(e) => LoadPage(5)}  >Ver historial de materias </button>                               
-                                    <button type="submit" className="btn btn-primary mt-3"  onClick={(e) => {LoadPage(6);sortSignatures()}}  >Retirar Materia </button>                               
+                                    <button type="submit" className="btn btn-primary mt-3 btn-sm" onClick={(e) => LoadPage(4)}  >Inscribir Semestre</button>
+                                    <button type="submit" className="btn btn-primary mt-3 btn-sm"  onClick={(e) => LoadPage(5)}  >Ver historial de materias </button>                               
+                                    <button type="submit" className="btn btn-primary mt-3 btn-sm"  onClick={(e) => {LoadPage(6);sortSignatures()}}  >Retirar Materia </button>                               
                                 </div> 
                             )
                             :(<div> Loading...</div>)}                                               
                         </div>
                     </div>
-                    <div className="container border py-5">
+                    <div className="container border py-5 bg-white">
                         {view == 0 ? (""):LoadPage2(view)}
                     </div>            
                 </div>

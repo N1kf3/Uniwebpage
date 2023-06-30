@@ -6,6 +6,10 @@
     on that page only (the ones not reused in other pages).
 */
 
+body{
+    background-color: rgb(127, 200, 255);
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
