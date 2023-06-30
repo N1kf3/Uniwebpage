@@ -23,3 +23,7 @@ input::-webkit-inner-spin-button {
 .delete_list :hover{
     cursor: pointer;
 }
+
+.app{
+    min-height: 100vh;
+}

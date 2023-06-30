@@ -80,8 +80,8 @@ export const DropSignature =()=>{
 
     return(
         <div className="container"> 
-            <h5>Retirar materias</h5>
-            <label htmlFor="exampleInputEmail1" className="form-label mt-4"  >Selecione las materias que desea retirar</label>
+            <h2 className="border-bottom">Retirar materias</h2>
+            <h5 className="form-label mt-4"> Selecione las materias que desea retirar</h5>           
             <ul className="list-group list_bullet" >     
             {!store.dropArr?(<div>Cargando...</div>):(store.dropArr.map((sig,index)=>                            
                                     <li htmlFor="check" className="form-check form-switch" key={index} id={index} >                                        

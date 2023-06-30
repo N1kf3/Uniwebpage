@@ -67,10 +67,13 @@ export const Upload = ()=>{
     return(
         <div className="mx-5">           
                 <div className="wrapper">
-                    <h3>Cargar materias</h3>
-                    <form className="form-group custom-form" onSubmit={handleFileSubmit}>
-                        <input type="file" className="form-control" required onChange={handleFile} />
-                        <button type="submit" className="btn btn-success btn-md">UPLOAD</button>
+                    <h3 className="border-bottom">Cargar materias</h3>
+
+                    <form className="form-group custom-form mt-3" onSubmit={handleFileSubmit}>
+                        <div className="input-group">
+                            <input type="file" className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required onChange={handleFile}/>
+                            <button className="btn btn-outline-secondary ms-2" type="submit" id="inputGroupFileAddon04">Subir archivo</button>
+                        </div>
                         {typeError&&(
                         <div className="alert alert-danger" role="alert">{typeError}</div>
                         )}

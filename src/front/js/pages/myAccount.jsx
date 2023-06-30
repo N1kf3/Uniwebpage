@@ -9,7 +9,7 @@ import { DropSignature} from "../component/dropsignature.jsx";
 import { DropStudent} from "../component/dropstudent.jsx";
 import { Link ,useNavigate} from "react-router-dom";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+import userImageUrl from "../../img/user.png";
 import "../../styles/home.css";
 
 
@@ -111,21 +111,18 @@ export const MyAccount =() =>{
     return (
         <div>
             {store.jwt_token ? (
-                <div className="d-flex container">
-                    <div className="mx-5">
+                <div className="d-flex container mt-5 ">
+                    <div className="mx-5 border p-5 w-25">
                         <div>
-                            icono o foto del usuario<br/>
+                            <img src={userImageUrl} className="img-thumbnail h-25" alt="..."/>                            
                             {store.user ? (<div>        
-                            <h6>Nombre y apellido: 
+                            <h6>Nombre y apellido: <br/>
                             {" "+ store.user.name} { store.user.last_name}</h6>
-                            <h6>Cedula: {store.user.user_ID}</h6>
-                            <h6>Carrera: {store.user.career}</h6>
+                            <h6>Cedula: <br/>{store.user.user_ID}</h6>
+                            <h6>Carrera: <br/> {store.user.career}</h6>
                             </div>):(<div> Loading...</div>)}
                         </div>
                         <div>
-                            <strong>
-                                array de botones con funciones
-                            </strong>
                             {store.user ? 
                                 store.user.career == "admin"? (
                                 <div className="d-flex flex-column">
@@ -144,7 +141,7 @@ export const MyAccount =() =>{
                             :(<div> Loading...</div>)}                                               
                         </div>
                     </div>
-                    <div className="container mt-5">
+                    <div className="container border py-5">
                         {view == 0 ? (""):LoadPage2(view)}
                     </div>            
                 </div>

@@ -157,7 +157,7 @@ export const Enroll =()=>{
 
     return(
         <div className="container">
-            <h2>inscribir materia</h2>
+            <h2 className="border-bottom">Inscribir materia</h2>
             <div className="">
                 <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" onChange={(e)=>showList(e.target.value)}>
                     <option defaultValue={"Semestre"} >Semestre</option>

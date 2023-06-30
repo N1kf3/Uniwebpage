@@ -39,6 +39,7 @@ export const UpdateGrades =()=>{
                 getStudenSubject(resp.user)
                 getShowList(1)               
             }else{
+                getShowList(null) 
                 alert('usuario no registrado')
                 throw new Error(response.status)
                 
@@ -81,37 +82,35 @@ export const UpdateGrades =()=>{
 
 
     return(
-        <div>
-            <h3> Cargar notas</h3>            
-
-            <label htmlFor="exampleInputEmail1" className="form-label"  >Ingrese nuemro de cedula</label>
-            <div className="d-flex">
-                <input type="text" className="form-control" id="exampleInputcedula" onChange={(e)=>getstudent(e.target.value)}  />	
-                <button type="submit" className="btn btn-primary"  onClick={(e) => findStudent()}  >Buscar estudiante </button>                               
-            </div>
-            <div className="d-flex ">
+        <div className="mx-5">
+            <h3 className="border-bottom"> Cargar notas</h3>             
+            <div className="input-group my-3">
+                <input type="text" className="form-control" placeholder="Ingrese numero de cedula de identidad" aria-label="Ingrese numero de cedula" aria-describedby="button-addon2" onChange={(e)=>getstudent(e.target.value)}/>
+                <button className="btn btn-outline-secondary ms-2" type="button" id="button-addon2" onClick={(e) => findStudent()}>Buscar estudiante</button>
+            </div>        
+            <div className="d-flex mt-5">
                 {!showList ? (""):(
-                    <div className="d-flex ">  
-                        <div>
-
-                        <h5>Datos del estudiante</h5>
-                        <h6>Nombre: </h6>
-                        <label htmlFor="exampleInputEmail1" className="form-label"  >{studenSubject.name} {studenSubject.last_name}</label>
-                        <h6>Cedula: </h6>
-                        <label htmlFor="exampleInputEmail1" className="form-label"  >{studenSubject.user_ID} </label>
+                    <div className="d-flex">  
+                        <div className="border-end pe-4">
+                            <h5>Datos del estudiante</h5>
+                            <h6>Nombre: </h6>
+                            <label htmlFor="exampleInputEmail1" className="form-label"  >{studenSubject.name} {studenSubject.last_name}</label>
+                            <h6>Cedula: </h6>
+                            <label htmlFor="exampleInputEmail1" className="form-label"  >{studenSubject.user_ID} </label>
                         </div>
                    
-                <ul className="list-group list_bullet ms-5" >                
-                    {!showList ? ("")
-                                : subjectClean.length == 0? (<div>No hay materias inscritas</div>):
-                                (subjectClean.map((sig,index)=>                            
-                                    <li htmlFor="check" className="d-flex justify-content-between" key={index} id={index} >
-                                        <span>{sig.codigo}-{sig.materias}</span>     
-                                        <input type="text" className="form-control w-25" id={index}  defaultValue={sig.notas} onChange={(e)=>changeGrade(e.target.id,e.target.value)} />	                                                           
-                                    </li>                                                      
-                                ))}   
-                </ul>
-                <button type="submit" className="btn btn-primary ms-3"  onClick={(e) => uploadGrades()}  >Cargar notas </button>   </div>)} 
+                        <ul className="list-group list_bullet ms-5 border-end pe-4 rounded-0" >                
+                            {!showList ? ("")
+                                        : subjectClean.length == 0? (<div>No hay materias inscritas</div>):
+                                        (subjectClean.map((sig,index)=>                            
+                                            <li htmlFor="check" className="d-flex justify-content-between mb-2" key={index} id={index} >
+                                                <span>{sig.codigo}-{sig.materias}</span>     
+                                                <input type="text" className="form-control w-25 py-0" id={index}  defaultValue={sig.notas} onChange={(e)=>changeGrade(e.target.id,e.target.value)} />	                                                           
+                                            </li>                                                      
+                                        ))}   
+                        </ul>
+                        <button type="submit" className="btn btn-primary ms-3 h-25"  onClick={(e) => uploadGrades()}  >Cargar notas </button>   
+                    </div>)} 
             </div>
 
 

@@ -10,7 +10,7 @@ export const SignatureHistory =()=>{
     const [view, setView] = useState(0);    
 
     return(
-        <div>
+        <div className="container">
             <h2 className="border-bottom">Historial de materias inscritas</h2>
           
             <div className="container mt-5 w-75 text-center">
