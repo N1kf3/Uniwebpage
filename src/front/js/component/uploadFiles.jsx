@@ -67,9 +67,9 @@ export const Upload_files = ()=>{
         <div className="mx-5">           
                 <div className="wrapper">
                     <h3>Cargar informacion de los estudiantes</h3>
-                    <form className="form-group custom-form" onSubmit={handleFileSubmit}>
+                    <form className="form-group custom-form mt-3" onSubmit={handleFileSubmit}>
                         <input type="file" className="form-control" required onChange={handleFile} />
-                        <button type="submit" className="btn btn-success btn-md">UPLOAD</button>
+                        <button type="submit" className="btn btn-success btn-md mt-3">UPLOAD</button>
                         {typeError&&(
                         <div className="alert alert-danger" role="alert">{typeError}</div>
                         )}

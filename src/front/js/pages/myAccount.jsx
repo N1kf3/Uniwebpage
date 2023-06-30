@@ -144,7 +144,7 @@ export const MyAccount =() =>{
                             :(<div> Loading...</div>)}                                               
                         </div>
                     </div>
-                    <div className="container">
+                    <div className="container mt-5">
                         {view == 0 ? (""):LoadPage2(view)}
                     </div>            
                 </div>
