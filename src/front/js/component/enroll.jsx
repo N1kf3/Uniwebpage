@@ -13,15 +13,7 @@ export const Enroll =()=>{
 
     useEffect(() => {
         
-        { /*     
-        Oowlish
-        Revelo
-        launchpad technologies
-        valatam
-        bairesdev
-        canonical
-        upwork
-        gigster*/}
+   
 
     });
 
