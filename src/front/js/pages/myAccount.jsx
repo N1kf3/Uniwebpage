@@ -143,7 +143,7 @@ export const MyAccount =() =>{
                             ):(
                                 <div className="d-flex flex-column">
                                     <button type="submit" className="btn btn-primary mt-3 btn-sm" onClick={(e) => LoadPage(4)}  >Inscribir Semestre</button>
-                                    <button type="submit" className="btn btn-primary mt-3 btn-sm"  onClick={(e) => LoadPage(5)}  >Ver historial de materias </button>                               
+                                    <button type="submit" className="btn btn-primary mt-3 btn-sm"  onClick={(e) => LoadPage(5)}  >Historial de materias </button>                               
                                     <button type="submit" className="btn btn-primary mt-3 btn-sm"  onClick={(e) => {LoadPage(6);sortSignatures()}}  >Retirar Materia </button>                               
                                 </div> 
                             )
