@@ -109,7 +109,7 @@ export const UpdateGrades =()=>{
                                             </li>                                                      
                                         ))}   
                         </ul>
-                        <button type="submit" className="btn btn-primary ms-3 bt-sm h-25"  onClick={(e) => uploadGrades()}  >Cargar notas </button>   
+                        <button type="submit" className="btn btn-primary ms-3 bt-sm h-25 p-0"  onClick={(e) => uploadGrades()}  >Cargar notas </button>   
                     </div>)} 
             </div>
 

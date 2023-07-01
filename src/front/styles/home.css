@@ -33,9 +33,16 @@ input::-webkit-inner-spin-button {
 }
 
 .list-history{
-    max-height: 400px;
-    min-height: 400px;
-    margin-bottom: 10px;
+    max-height: 42vh;
+    min-height: 33vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.list-enroll{
+    max-height: 42vh;
+    min-height: 33vh;
     overflow-x: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;

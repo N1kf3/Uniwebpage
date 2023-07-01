@@ -10,6 +10,7 @@ export const Enroll =()=>{
     const [showSig, getShowSig]= useState([]);
     const [codeArr, getCodeArr]= useState([]);
     const [theArray, setTheArray] = useState([]);
+    const [noGrade, getNoGrade]= useState([])
 
     useEffect(() => {
         
@@ -20,16 +21,21 @@ export const Enroll =()=>{
     const control_sig=(materias, materiasData)=>{
         let codesArr=[]
         for (let i =0; i< materias.length; i++ ){
-            if (materias[i].notas>= 10)
+            if (materias[i].notas >= 10)
                 codesArr.push(materias[i].codigo)
         }
         let newArr = materiasData.filter(item => !codesArr.includes(item.codigo))
         return (newArr)
-
-
     }
 
     const showList=(tu)=>{
+        let ara=[]
+        for (let i=0; i< store.user.materia.length; i++){            
+            if (store.user.materia[i].notas=="0"){
+                ara.push(store.user.materia[i])
+            }
+        }
+        getNoGrade(ara)
         let filteredSubject= control_sig(store.user.materia , store.user_Sig)
         switch(tu){
             case "Semestre I": 
@@ -53,20 +59,25 @@ export const Enroll =()=>{
         }
         //cambiar el array
         let newArray = filteredSubject.filter((sem)=> sem.semestre == tu)
-        getShowSig(newArray)       
+        getShowSig(newArray)    
         let codesArr = []
         for (let i =0; i< store.user.materia.length; i++ ){
             if (store.user.materia[i].notas>= 10)
                 codesArr.push(store.user.materia[i].codigo)
         }
-        console.log(codesArr)
         getCodeArr(codesArr)
 
     }
 
-    const funcPrela=(prelaciones, semestre)=>{
+    const funcPrela=(prelaciones, codigo)=>{
+
         let prela=[]
         prela = prelaciones.split(" ");
+        for (let i=0; i< noGrade.length; i++){
+            if (codigo == noGrade[i].codigo && noGrade[i].notas=="0"){             
+                return false
+            }
+        }
         if (prela[0]==0){
             return true
         } 
@@ -81,7 +92,6 @@ export const Enroll =()=>{
                 return false
             else
                 return true
-
         }
     }
 
@@ -127,19 +137,15 @@ export const Enroll =()=>{
                 headers: {
                     "Content-Type":"application/json"                
                 } ,
-                body : JSON.stringify(theArray)
-                    
-                   
+                body : JSON.stringify(theArray)                                     
             });
             if (response.status ==201){
                 alert("se cargaron las materias con exito")
                 setTheArray([])
                 actions.getProfile()
-
             } else{
                 throw new Error(response.status)
-            }
-            
+            }            
         } catch (error) {
             console.log(error)
         }
@@ -166,7 +172,7 @@ export const Enroll =()=>{
                         :(
                             showSig.map((sig,index)=>
                             <li htmlFor="check" className="list-group-item" value={sig.semestre} key={sig.codigo}  >
-                                <input name="check" disabled={funcPrela(sig.prelaciones,sig.semestre) ?(false):(true)} 
+                                <input name="check" disabled={funcPrela(sig.prelaciones, sig.codigo) ?(false):(true)} 
                                 checked={funcCheck(sig.codigo)?(true):(false)}
                                 className="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault" 
                                 onChange={(e)=>updateEnroll(sig.codigo)}/>
@@ -174,10 +180,10 @@ export const Enroll =()=>{
                             </li>                            
                         ))}                        
                     </ul>
-                    {!showSig ? (<div >uno</div>):
+                    {!showSig ? (""):
                         (<div className=" ms-3 form-control border w-50" id="exampleFormControlTextarea1" 
                             style={{display: showSig.length ==0 ? 'none' : 'block' }}>
-                            <ul className="list-group list_bullet" >                
+                            <ul className="list-group list_bullet list-enroll" >                
                             {!showSig ? (<div display={"none"}>uno</div>)
                             :(
                                 theArray.map((sig,index)=>                            
@@ -190,9 +196,9 @@ export const Enroll =()=>{
                         </div> 
                     )}
                 </div>
-                <div className="d-flex justify-content-end mt-3">
+                <div className="d-flex justify-content-end mt-2">
                     <button type="submit" className="btn btn-success btn-md " style={{display: showSig.length == 0 ? 'none' : 'block' }} onClick={(e)=>uploadSig()}>
-                        INSCRIBIRSE
+                        Inscribirse
                     </button>
                 </div>
             </div>

@@ -28,8 +28,7 @@ export const Signin =() =>{
                 })
                 if (response.status == 200){
                     let resp = await response.json();
-                    actions.setToken(resp.jwt_token);               
-                    alert('sesion iniciada');             
+                    actions.setToken(resp.jwt_token);                                            
                     navigate("/my_account");
     
                 }
@@ -48,20 +47,19 @@ export const Signin =() =>{
 
 return(
     <div className="border p-5 bg-white">
-        <form>
-				<div className="mb-3">
-					<label htmlFor="exampleInputEmail1" className="form-label">Cedula de identidad</label>
-					<input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={(e)=>getUserID(e.target.value)}/>					
-				</div>
-				<div className="mb-3">
-					<label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
-					<input type="password" className="form-control" id="exampleInputPassword1" onChange={(e)=>getUserPass(e.target.value)}/>
-				</div>
-				<Link to='/'>
-				<button type="submit" className="btn btn-primary btn-sm" onClick={tryLogIn}>Iniciar Sesion</button>
-				</Link>
-			
-			</form>
+        <form className="d-flex flex-column">
+            <div>
+                <div className="mb-3">
+                    <label htmlFor="exampleInputEmail1" className="form-label">Cedula de identidad</label>
+                    <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={(e)=>getUserID(e.target.value)}/>					
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
+                    <input type="password" className="form-control" id="exampleInputPassword1" onChange={(e)=>getUserPass(e.target.value)}/>
+                </div>
+            </div>
+				<button type="submit" className=" mx-auto btn btn-primary btn-sm" onClick={tryLogIn}>Iniciar Sesion</button>		
+		</form>
     </div>
 )
 

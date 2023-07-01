@@ -18,7 +18,6 @@ export const Navbar = () => {
 		store.jwt_token= null;
 		store.user=null;
 		getViewInfo(view)
-		alert("se cerro la sesion")
 	}
 	return (
 		<nav className="navbar navbar-light bg-white">
