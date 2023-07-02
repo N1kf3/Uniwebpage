@@ -1,12 +1,14 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask_bcrypt import gensalt
 from flask import Flask, request, jsonify, url_for, Blueprint
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from api.models import db, User, Student_Data, Studen_subject, Studen_grade
 from api.utils import generate_sitemap, APIException
-
+from flask_migrate import Migrate
+from flask_swagger import swagger
+from flask_cors import CORS
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from bcrypt import gensalt
 from werkzeug.security import generate_password_hash, check_password_hash
 api = Blueprint('api', __name__)
 
