@@ -26,7 +26,6 @@ export const MyAccount =() =>{
         else{
             if (store.user == null){
                 actions.getProfile();
-                console.log('entra al privado')
                 fetchSubject()
             }
         }
@@ -105,7 +104,7 @@ export const MyAccount =() =>{
             }
         }
         store.dropArr=arr
-        console.log(arr)
+     
     }
 
     return (

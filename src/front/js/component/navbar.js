@@ -13,7 +13,7 @@ export const Navbar = () => {
     }, [store.jwt_token]);
 
 	const signout=(view)=>{
-		console.log("cerro sesion")
+	
 		localStorage.removeItem("jwt_token");
 		store.jwt_token= null;
 		store.user=null;

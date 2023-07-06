@@ -6,19 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: null,	
 			user_Sig: null,
 			falg:0,
-			dropArr:[],
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			dropArr:[],		
 		},
 		actions: {
 			setToken: (jwt_token) => {

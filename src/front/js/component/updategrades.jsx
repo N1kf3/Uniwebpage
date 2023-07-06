@@ -90,26 +90,30 @@ export const UpdateGrades =()=>{
             </form>        
             <div className="d-flex mt-5">
                 {!showList ? (""):(
-                    <div className="d-flex">  
-                        <div className="border-end pe-4">
-                            <h5>Datos del estudiante</h5>
-                            <h6>Nombre: </h6>
-                            <label htmlFor="exampleInputEmail1" className="form-label"  >{studenSubject.name} {studenSubject.last_name}</label>
-                            <h6>Cedula: </h6>
-                            <label htmlFor="exampleInputEmail1" className="form-label"  >{studenSubject.user_ID} </label>
+                    <div className="">  
+                        <div className="d-flex">  
+                            <div className="border-end pe-4 d-flex flex-column">
+                                <div>
+                                    <h5>Datos del estudiante</h5>
+                                    <h6>Nombre: </h6>
+                                    <label htmlFor="exampleInputEmail1" className="form-label"  >{studenSubject.name} {studenSubject.last_name}</label>
+                                    <h6>Cedula: </h6>
+                                    <label htmlFor="exampleInputEmail1" className="form-label"  >{studenSubject.user_ID} </label>
+                                </div>
+                                <button type="submit" className="btn btn-primary ms-3 bt-sm"  onClick={(e) => uploadGrades()}  >Cargar notas </button>   
+                            </div>
+                    
+                            <ul className="list-group list_bullet ms-3 border-end pe-4 rounded-0" >                
+                                {!showList ? ("")
+                                            : subjectClean.length == 0? (<div>No hay materias inscritas</div>):
+                                            (subjectClean.map((sig,index)=>                            
+                                                <li htmlFor="check" className="d-flex justify-content-between mb-2" key={index} id={index} >
+                                                    <span>{sig.codigo}-{sig.materias}</span>     
+                                                    <input type="text" className="form-control w-25 py-0" id={index}  defaultValue={sig.notas} onChange={(e)=>changeGrade(e.target.id,e.target.value)} />	                                                           
+                                                </li>                                                      
+                                            ))}   
+                            </ul>
                         </div>
-                   
-                        <ul className="list-group list_bullet ms-3 border-end pe-4 rounded-0" >                
-                            {!showList ? ("")
-                                        : subjectClean.length == 0? (<div>No hay materias inscritas</div>):
-                                        (subjectClean.map((sig,index)=>                            
-                                            <li htmlFor="check" className="d-flex justify-content-between mb-2" key={index} id={index} >
-                                                <span>{sig.codigo}-{sig.materias}</span>     
-                                                <input type="text" className="form-control w-25 py-0" id={index}  defaultValue={sig.notas} onChange={(e)=>changeGrade(e.target.id,e.target.value)} />	                                                           
-                                            </li>                                                      
-                                        ))}   
-                        </ul>
-                        <button type="submit" className="btn btn-primary ms-3 bt-sm h-25 p-0"  onClick={(e) => uploadGrades()}  >Cargar notas </button>   
                     </div>)} 
             </div>
 
